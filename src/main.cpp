@@ -16,7 +16,6 @@
 
 bool toggle = false;
 
-// // draw a circle in opengl with the given radius
 // void circle(float radius) {
 //   int i = 0;
 //   float angle = 0.0;
@@ -28,7 +27,17 @@ bool toggle = false;
 //   glEnd();
 // }
 
-// draw a circle in opengl with the given center and radius
+void text(int x, int y, float r, float g, float b, char *string) {
+  glColor3f(r, g, b) ;
+  glRasterPos2f(x, y);
+  int len, i;
+  len = (int)strlen(string);
+  for (i = 0; i < len; i++) {
+    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, string[i]);
+  }
+}
+
+
 void circle(float cx, float cy, float r) {
   int i = 0;
   float angle = 0.0;
@@ -116,6 +125,10 @@ void pc1() {
     glVertex2f(445, 1024-634);
     glVertex2f(445, 1024-670);
   glEnd();
+  // text
+  text(420, 1024-550, 0, 0, 0, "MIST");
+  text(410, 1024-580, 0, 0, 0, "CSE-18");
+  text(345, 1024-610, 0, 0, 0, "GRAPHICS PROJECT");
 }
 
 void pc2() {
@@ -143,6 +156,9 @@ void pc2() {
     glVertex2f(445+226, 1024-634);
     glVertex2f(445+226, 1024-670);
   glEnd();
+  // text
+  text(400+225, 1024-550, 0, 0, 0, "Project Title");
+  text(350+225, 1024-610, 0, 0, 0, "HOME DESK SETUP");
 }
 
 void CPU() {
@@ -491,22 +507,19 @@ void lamp() {
 
 }
 
-// clock stuff
 #define PI 3.14159
 double second_angle = 0, minute_angle = 0, hour_angle = 0;
 
-//Function to draw a line
 void drawLine(GLfloat x, GLfloat y, GLfloat angle) {
 	glVertex2f(x, x);
 	glVertex2f(y * cos(angle), y * sin(angle));
 }
 
-//Function to display the circular shape of the clock
 void display_clock(void) {
 
 	GLfloat x, y, angle;
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glPointSize(1.5);
+	glColor3f(0.4, 0.4, 0.4);
+	glPointSize(2);
 	glBegin(GL_POINTS);
 	for (angle = 0.0f; angle <= (2.0f * 3.14); angle += 0.01f)
 	{
@@ -522,25 +535,25 @@ void display_clock(void) {
 //Function to display the hands of the clock
 void hands(void) {
   glPushMatrix();
-    glTranslatef(800, 1024-400, 1);
+    glTranslatef(800, 1024-200, 1);
     // glClear(GL_COLOR_BUFFER_BIT);
-    glColor3f(1.0, 0.0, 0.0);
+    glColor3f(0.5, 0.5, 0.5);
     glLineWidth(2.0);
     display_clock();
 
-    glColor3f(1.0f, 0.5f, 0.0f);
+    glColor3f(1.0f, 0.8f, 0.0f);
     glBegin(GL_LINES);
-    drawLine(0, 30.0, -second_angle + PI / 2);
+    drawLine(0, 45.0, -second_angle + PI / 2);
     glEnd();
 
-    glColor3f(1.0f, 1.0f, 1.0f);
+    glColor3f(1.0f, 0.7f, 0.6f);
     glBegin(GL_LINES);
-    drawLine(0.0, 40.0, -minute_angle + PI / 2);
+    drawLine(0.0, 35.0, -minute_angle + PI / 2);
     glEnd();
 
     glColor3f(1.0f, 0.0f, 0.0f);
     glBegin(GL_LINES);
-    drawLine(0.0, 25.0, -hour_angle + PI / 2);
+    drawLine(0.0, 30.0, -hour_angle + PI / 2);
     glEnd();
     // glFlush();
     // glutSwapBuffers();
@@ -603,8 +616,6 @@ void time_change(int i) {
 	glutTimerFunc(15, time_change, 1);
 }
 
-
-
 void Initialize()
 {
     glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -629,9 +640,6 @@ void spe_key(int key, int x, int y) {
 			break;
   }
 }
-
-
-
 
 int main(int iArgc , char** cppArgv) {
     glutInit(&iArgc , cppArgv);
